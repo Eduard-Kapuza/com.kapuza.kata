@@ -77,6 +77,7 @@ public class Calculator {
         System.out.println(counting(str, a, b));
     }
 
+
     public static int counting(String str, int a, int b) throws Exception {
 
         int result = 0;
