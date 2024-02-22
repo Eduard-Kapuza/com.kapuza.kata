@@ -16,7 +16,7 @@ public class Calculator {
         try {
             Integer.parseInt(inputs[0]);
             Integer.parseInt(inputs[1]);
-            arab(stringInput, inputs/*, negativeNumber*/);
+            arab(stringInput, inputs);
         } catch (Exception e) {
             rome(stringInput, inputs);
         }
