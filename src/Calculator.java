@@ -2,15 +2,17 @@ import java.util.Scanner;
 
 public class Calculator {
     public static void main(String[] args) throws Exception {
-
         Scanner scanner = new Scanner(System.in);
-        String stringInput = scanner.nextLine();
-        String[] inputs = operations(stringInput);
 
-        try {
-            System.out.println(counting(inputs[1], Integer.parseInt(inputs[0]), Integer.parseInt(inputs[2])));
-        } catch (Exception e) {
-            rome(stringInput, inputs);
+        while (true) {
+            String stringInput = scanner.nextLine();
+            String[] inputs = operations(stringInput);
+
+            try {
+                System.out.println(counting(inputs[1], Integer.parseInt(inputs[0]), Integer.parseInt(inputs[2])));
+            } catch (Exception e) {
+                rome(stringInput, inputs);
+            }
         }
     }
 
@@ -23,9 +25,13 @@ public class Calculator {
             throw new Exception("Введено не корректное выражение - " + "\"" + str + "\"");
         }
 
-        for (int i = 1; i < str.length(); i++) {
+        for (int i = 1, k = 0; i < str.length(); i++) {
             for (int j = 0; j < operationSigns.length; j++) {
                 if (str.charAt(i) == operationSigns[j]) {
+                    k++;
+                    if (k > 1) {
+                        throw new Exception("В введённом выражении больше одной арифмитеческой операции или первое число отрицательное");
+                    }
                     indexOfOperation = i;
                     break;
                 }
@@ -36,22 +42,12 @@ public class Calculator {
             throw new Exception("Вы выбрали неподдерживаемый тип операции");
         }
 
-        for (int i = 0, k = 0; i < str.length(); i++) {
-            if (str.charAt(indexOfOperation) == str.charAt(i)) {
-                k++;
-                if (k > 1) {
-                    throw new Exception("В введённом выражении больше одной арифмитеческой операции");
-                }
-            }
-        }
-
         return new String[]{
                 str.substring(0, indexOfOperation),
                 str.substring(indexOfOperation, indexOfOperation + 1),
                 str.substring(indexOfOperation + 1)
         };
     }
-
 
     public static void rome(String str, String[] inputs) throws Exception {
 
