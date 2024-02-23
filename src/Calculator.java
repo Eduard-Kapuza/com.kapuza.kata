@@ -4,28 +4,59 @@ public class Calculator {
     public static void main(String[] args) throws Exception {
 
         Scanner scanner = new Scanner(System.in);
-
         String stringInput = scanner.nextLine();
-
-        String[] inputs = stringInput.split("[\\-+*/]");
-
-        if (inputs.length > 2) {
-            throw new Exception("В введённом выражении больше одной арифмитеческой операции");
-        }
+        String[] inputs = operations(stringInput);
 
         try {
-            Integer.parseInt(inputs[0]);
-            Integer.parseInt(inputs[1]);
-            arab(stringInput, inputs);
+            System.out.println(counting(inputs[1], Integer.parseInt(inputs[0]), Integer.parseInt(inputs[2])));
         } catch (Exception e) {
             rome(stringInput, inputs);
         }
     }
 
+    public static String[] operations(String str) throws Exception {
+
+        int indexOfOperation = -1;
+        char[] operationSigns = {'-', '+', '*', '/'};
+
+        if (str.length() == 1 || str.length() == 2 || str.length() == 0) {
+            throw new Exception("Введено не корректное выражение - " + "\"" + str + "\"");
+        }
+
+        for (int i = 1; i < str.length(); i++) {
+            for (int j = 0; j < operationSigns.length; j++) {
+                if (str.charAt(i) == operationSigns[j]) {
+                    indexOfOperation = i;
+                    break;
+                }
+            }
+        }
+
+        if (indexOfOperation == -1) {
+            throw new Exception("Вы выбрали неподдерживаемый тип операции");
+        }
+
+        for (int i = 0, k = 0; i < str.length(); i++) {
+            if (str.charAt(indexOfOperation) == str.charAt(i)) {
+                k++;
+                if (k > 1) {
+                    throw new Exception("В введённом выражении больше одной арифмитеческой операции");
+                }
+            }
+        }
+
+        return new String[]{
+                str.substring(0, indexOfOperation),
+                str.substring(indexOfOperation, indexOfOperation + 1),
+                str.substring(indexOfOperation + 1)
+        };
+    }
+
+
     public static void rome(String str, String[] inputs) throws Exception {
 
         String firstUnit = inputs[0];
-        String twoUnit = inputs[1];
+        String twoUnit = inputs[2];
 
         boolean flag1 = false, flag2 = false;
         int numberOne = 0, numberTwo = 0;
@@ -55,26 +86,19 @@ public class Calculator {
 
             int resultRome = counting(str, numberOne, numberTwo);
             if (resultRome < 1) {
-                throw new Exception("Результат операций над римскими цифрами меньше 1");
+                throw new Exception("""
+                        \nВ римской системе нет отрицательных чисел 
+                        Или число между 0 и I""");
             }
             System.out.println(romeNumbers[resultRome]);
 
         } else {
-            throw new Exception("""
-                                        
-                    Введенное выражение содержит:
-                                                1) цифры разных систем исчисления
+            throw new Exception("""                
+                    \nВведенное выражение содержит:
+                                                1) одновременно разные системы счисления
                                                 2) значение(-я) не являющееся цифрой(-ами)
                                                 3) в введённом выражении число(-а) больше 10(X) или меньше 1(I)""");
         }
-    }
-
-
-    public static void arab(String str, String[] inputs) throws Exception {
-
-        int a = Integer.parseInt(inputs[0]);
-        int b = Integer.parseInt(inputs[1]);
-        System.out.println(counting(str, a, b));
     }
 
 
@@ -82,7 +106,7 @@ public class Calculator {
 
         int result = 0;
 
-        if (a < 1 || a > 10 || b < 0 || b > 10) {
+        if (a < 1 || a > 10 || b < 1 || b > 10) {
             throw new Exception();
         }
 
