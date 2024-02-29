@@ -7,19 +7,18 @@ public class Calculator {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        String stringInput = scanner.nextLine();
-        calc(stringInput);
-
+        while (true) {
+            String stringInput = scanner.nextLine();
+            System.out.println(calc(stringInput));
+        }
     }
 
     public static String calc(String input) throws Exception {
-        while (true) {
-            String[] inputs = operation(input);
-            try {
-                System.out.println(counting(Integer.parseInt(inputs[0]), inputs[1], Integer.parseInt(inputs[2])));
-            } catch (Exception e) {
-                rome(inputs);
-            }
+        String[] inputs = operation(input);
+        try {
+            return String.valueOf(counting(Integer.parseInt(inputs[0]), inputs[1], Integer.parseInt(inputs[2])));
+        } catch (Exception e) {
+            return rome(inputs);
         }
     }
 
@@ -76,8 +75,9 @@ public class Calculator {
         return operationIndex;
     }
 
-    public static void rome(String[] inputs) throws Exception {
+    public static String rome(String[] inputs) throws Exception {
 
+        int resultRome = 0;
         String firstNumber = inputs[0];
         String twoNumber = inputs[2];
 
@@ -102,17 +102,17 @@ public class Calculator {
         }
 
         if (flag1 && flag2) {
-            int resultRome = counting(numberOne, inputs[1], numberTwo);
+            resultRome = counting(numberOne, inputs[1], numberTwo);
             if (resultRome < 1) {
                 throw new Exception("В римской системе нет отрицательных чисел");
             }
-            System.out.println(list.get(resultRome));
         } else {
             throw new Exception("""                
                     \nВведенное выражение содержит:
                                                 1) одновременно разные системы счисления
                                                 2) значение(-я) не являющееся цифрой(-ами)""");
         }
+        return list.get(resultRome);
     }
 
     public static int counting(int a, String str, int b) throws Exception {
