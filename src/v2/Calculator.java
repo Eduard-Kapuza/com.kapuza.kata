@@ -11,18 +11,17 @@ public class Calculator {
         calc(stringInput);
 
     }
+
     public static String calc(String input) throws Exception {
-
-
         while (true) {
-
             String[] inputs = operation(input);
             try {
                 System.out.println(counting(Integer.parseInt(inputs[0]), inputs[1], Integer.parseInt(inputs[2])));
-            }catch (Exception e) {
+            } catch (Exception e) {
                 rome(inputs);
             }
-        }}
+        }
+    }
 
     public static String[] operation(String str) throws Exception {
 
@@ -38,7 +37,7 @@ public class Calculator {
         int operationIndex = -1;
         char[] chars = new char[]{'+', '-', '*', '/'};
 
-        if (str.length() < 3 ) {
+        if (str.length() < 3) {
             throw new Exception("Длина входной строки должна быть минимум 3 символа");
         }
 
@@ -46,7 +45,7 @@ public class Calculator {
             throw new Exception("Калькулятор работает только с целыми числами");
         }
 
-        if (str.charAt(0) == '-' ) {
+        if (str.charAt(0) == '-') {
             throw new Exception("Принемаемые числа на вход должны быть от 1(I) до 10(X) включительно");
         }
 
