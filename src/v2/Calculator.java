@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Calculator {
 
-    public static void main(String[] args) throws java.lang.Exception {
+    public static void main(String[] args) throws Exception {
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -13,13 +13,13 @@ public class Calculator {
             String[] inputs = operation(stringInput);
             try {
                 System.out.println(counting(Integer.parseInt(inputs[0]), inputs[1], Integer.parseInt(inputs[2])));
-            } catch (java.lang.Exception e) {
+            }catch (Exception e) {
                 rome(inputs);
             }
         }
     }
 
-    public static String[] operation(String str) throws java.lang.Exception {
+    public static String[] operation(String str) throws Exception {
 
         int index = validation(str);
         String[] inputArray = str.split("[\\-*+/]");  // Можно пойти через List<String> strings=List.of(str.split("[\\-*+/]"));
@@ -28,7 +28,7 @@ public class Calculator {
                 inputArray[1]};
     }
 
-    public static int validation(String str) throws java.lang.Exception {
+    public static int validation(String str) throws Exception {
 
         int operationIndex = -1;
         char[] chars = new char[]{'+', '-', '*', '/'};
@@ -39,6 +39,10 @@ public class Calculator {
 
         if (str.contains(",") || str.contains(".")) {
             throw new Exception("Калькулятор работает только с целыми числами");
+        }
+
+        if (str.charAt(0) == '-' ) {
+            throw new Exception("Принемаемые числа на вход должны быть от 1(I) до 10(X) включительно");
         }
 
         for (int i = 0, checkDoubleOperation = 0; i < chars.length; i++) {  // проверка входных данных типа 5-+8 (/5-8) и т.п.
@@ -53,12 +57,8 @@ public class Calculator {
             }
         }
 
-        if (str.charAt(0) == '-' ) {
-            throw new Exception("Принемаемые числа на вход должны быть от 1(I) до 10(X) включительно");
-        }
-
         OUTER:
-        for (int i = 0; i < str.length(); i++) {
+        for (int i = 0; i < str.length(); i++) {    // определение знак арифметической операции
             for (char sign : chars) {
                 if (str.charAt(i) == sign) {
                     operationIndex = i;
@@ -72,7 +72,7 @@ public class Calculator {
         return operationIndex;
     }
 
-    public static void rome(String[] inputs) throws java.lang.Exception {
+    public static void rome(String[] inputs) throws Exception {
 
         String firstNumber = inputs[0];
         String twoNumber = inputs[2];
@@ -88,7 +88,6 @@ public class Calculator {
                 "LXXIX", "LXXX", "LXXXI", "LXXXII", "LXXXIII", "LXXXIV", "LXXXV", "LXXXVI", "LXXXVII", "LXXXVIII", "LXXXIX", "XC",
                 "XCI", "XCII", "XCIII", "XCIV", "XCV", "XCVI", "XCVII", "XCVIII", "XCIX", "C");
 
-
         if (list.contains(firstNumber)) {
             numberOne = list.indexOf(firstNumber);
             flag1 = true;
@@ -99,22 +98,20 @@ public class Calculator {
         }
 
         if (flag1 && flag2) {
-
             int resultRome = counting(numberOne, inputs[1], numberTwo);
             if (resultRome < 1) {
                 throw new Exception("В римской системе нет отрицательных чисел");
             }
             System.out.println(list.get(resultRome));
-
         } else {
-            throw new java.lang.Exception("""                
+            throw new Exception("""                
                     \nВведенное выражение содержит:
                                                 1) одновременно разные системы счисления
                                                 2) значение(-я) не являющееся цифрой(-ами)""");
         }
     }
 
-    public static int counting(int a, String str, int b) throws java.lang.Exception {
+    public static int counting(int a, String str, int b) throws Exception {
 
         int result = 0;
         if (a < 1 || a > 10 || b < 1 || b > 10) {
@@ -132,5 +129,4 @@ public class Calculator {
         }
         return result;
     }
-
 }
