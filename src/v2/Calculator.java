@@ -6,18 +6,23 @@ import java.util.Scanner;
 public class Calculator {
 
     public static void main(String[] args) throws Exception {
-
         Scanner scanner = new Scanner(System.in);
+        String stringInput = scanner.nextLine();
+        calc(stringInput);
+
+    }
+    public static String calc(String input) throws Exception {
+
+
         while (true) {
-            String stringInput = scanner.nextLine();
-            String[] inputs = operation(stringInput);
+
+            String[] inputs = operation(input);
             try {
                 System.out.println(counting(Integer.parseInt(inputs[0]), inputs[1], Integer.parseInt(inputs[2])));
             }catch (Exception e) {
                 rome(inputs);
             }
-        }
-    }
+        }}
 
     public static String[] operation(String str) throws Exception {
 
